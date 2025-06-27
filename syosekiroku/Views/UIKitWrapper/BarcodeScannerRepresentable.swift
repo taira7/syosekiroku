@@ -28,6 +28,7 @@ struct BarcodeScannerRepresentable: UIViewControllerRepresentable {
     
     //SwiftUIからの更新が必要になったときに呼び出される
     func updateUIViewController(_ uiViewController: DataScannerViewController, context: Context) {
+        try? uiViewController.startScanning()
     }
     
     //UIKitのdelegateとSwiftUIを接続
