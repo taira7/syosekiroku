@@ -6,8 +6,13 @@
 import SwiftUI
 
 struct InitialView: View {
+    @State var isAuth = false
     var body: some View {
-        BarcodeScannerView()
+        if !isAuth {
+            SignView()
+        } else if isAuth {
+            MainStack()
+        }
     }
 }
 
