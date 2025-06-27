@@ -29,9 +29,22 @@
 		BB26391C2E084B4800E73AA3 /* syosekirokuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = syosekirokuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		BBEB81DA2E0ED9DA00521134 /* Exceptions for "syosekiroku" folder in "syosekiroku" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = BB2639012E084B4700E73AA3 /* syosekiroku */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		BB2639042E084B4700E73AA3 /* syosekiroku */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				BBEB81DA2E0ED9DA00521134 /* Exceptions for "syosekiroku" folder in "syosekiroku" target */,
+			);
 			path = syosekiroku;
 			sourceTree = "<group>";
 		};
@@ -43,6 +56,11 @@
 		BB26391F2E084B4800E73AA3 /* syosekirokuUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = syosekirokuUITests;
+			sourceTree = "<group>";
+		};
+		BBEB81D62E0ED6B200521134 /* configurations */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = configurations;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -75,6 +93,7 @@
 		BB2638F92E084B4700E73AA3 = {
 			isa = PBXGroup;
 			children = (
+				BBEB81D62E0ED6B200521134 /* configurations */,
 				BB2639042E084B4700E73AA3 /* syosekiroku */,
 				BB2639152E084B4800E73AA3 /* syosekirokuTests */,
 				BB26391F2E084B4800E73AA3 /* syosekirokuUITests */,
@@ -109,6 +128,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				BB2639042E084B4700E73AA3 /* syosekiroku */,
+				BBEB81D62E0ED6B200521134 /* configurations */,
 			);
 			name = syosekiroku;
 			packageProductDependencies = (
@@ -187,11 +207,12 @@
 				};
 			};
 			buildConfigurationList = BB2638FD2E084B4700E73AA3 /* Build configuration list for PBXProject "syosekiroku" */;
-			developmentRegion = en;
+			developmentRegion = ja;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ja,
 			);
 			mainGroup = BB2638F92E084B4700E73AA3;
 			minimizedProjectReferenceProxies = 1;
@@ -399,6 +420,7 @@
 				DEVELOPMENT_TEAM = 9VAKM2HUST;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = syosekiroku/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "バーコード読み取りのために使用します";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -429,6 +451,7 @@
 				DEVELOPMENT_TEAM = 9VAKM2HUST;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = syosekiroku/Info.plist;
 				INFOPLIST_KEY_NSCameraUsageDescription = "バーコード読み取りのために使用します";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
