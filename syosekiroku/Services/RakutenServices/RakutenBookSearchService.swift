@@ -39,6 +39,8 @@ final class RakutenBookSearchService {
             let decoder = JSONDecoder()
             let result = try decoder.decode(BookResponse.self,from: data)
             
+//            print("レスポンス: \(String(data: data, encoding: .utf8) ?? "")")
+            
             return result.Items.first?.Item
         }catch{
             print("error:\(error)")
