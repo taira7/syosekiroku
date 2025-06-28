@@ -5,17 +5,23 @@
 import SwiftUI
 
 struct ScanResultView: View {
-    @Binding var scannedCode: String?
+    @Binding var scannedCode: String
     @Binding var isScannerPresented: Bool
     
-    var imageURL: URL? {
-        guard let code = scannedCode else { return nil }
-        return URL(string: "https://ndlsearch.ndl.go.jp/thumbnail/\(code).jpg")
+    @State private var imageURL: URL? = nil
+    
+    let rakutenBookSearchService: RakutenBookSearchService = RakutenBookSearchService()
+    
+    func fetchBookImageURL(scannedCode: String) async {    
+        if let book = await rakutenBookSearchService.searchBook(isbn: scannedCode) {
+            let url = URL(string: book.largeImageUrl)
+            self.imageURL = url
+        }
     }
     
     var body: some View {
         VStack(spacing: 20) {
-            if let code = scannedCode {
+            if scannedCode != "" {
                 AsyncImage(url: imageURL) { phase in
                     switch phase {
                     case .empty:
@@ -40,7 +46,7 @@ struct ScanResultView: View {
                 }
                 .padding()
                 
-                Text("読み取ったバーコード: \(code)")
+                Text("読み取ったバーコード: \(scannedCode)")
                     .padding()
                     .padding(.bottom,30)
                 
@@ -58,12 +64,17 @@ struct ScanResultView: View {
                 Text("バーコードを読み取ってください")
             }
         }
+        .onAppear {
+            Task {
+                await fetchBookImageURL(scannedCode: scannedCode)
+            }
+        }
         .padding()
     }
 }
 
 #Preview {
-    @Previewable @State var scannedCode:String? = "9784873115658"
+    @Previewable @State var scannedCode:String = "9784873115658"
     @Previewable @State var isScannerPresented:Bool = false
     ScanResultView(scannedCode: $scannedCode, isScannerPresented: $isScannerPresented)
 }
