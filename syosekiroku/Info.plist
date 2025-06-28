@@ -4,7 +4,7 @@
 <dict>
 	<key>APIKeys</key>
 	<dict>
-		<key>RAKUTEN_APPLICATION_ID </key>
+		<key>RAKUTEN_APPLICATION_ID</key>
 		<string>$(RAKUTEN_APPLICATION_ID)</string>
 	</dict>
 </dict>

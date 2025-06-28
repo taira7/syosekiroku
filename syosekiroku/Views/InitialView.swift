@@ -6,7 +6,7 @@
 import SwiftUI
 
 struct InitialView: View {
-    @State var isAuth = false
+    @State var isAuth = true
     var body: some View {
         if !isAuth {
             SignView()

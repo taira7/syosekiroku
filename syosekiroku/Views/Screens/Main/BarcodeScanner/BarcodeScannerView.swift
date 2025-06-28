@@ -6,7 +6,7 @@ import SwiftUI
 import VisionKit
 
 struct BarcodeScannerView: View {
-    @State private var scannedCode: String?
+    @State private var scannedCode: String = ""
     @State private var isScannerPresented = false
     
     var body: some View {
@@ -20,7 +20,7 @@ struct BarcodeScannerView: View {
         }
         .onChange(of: isScannerPresented) { _ , newValue in
             if newValue == false {
-                scannedCode = nil
+                scannedCode = ""
             }
         }
     }

@@ -8,80 +8,97 @@ import SwiftUI
 struct BookListView: View {
     @Binding var navigationPath:[ScreenID]
     
-//デスノート　9784088736211
-// リーダブルコード　9784873115658
+    @State private var isbnToImageURL: [String: URL] = [:]
     
-//    var imageURL = URL(string: "https://ndlsearch.ndl.go.jp/thumbnail/9784873115658.jpg")
-//    var imageURL = URL(string: "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/9801/9784861529801_1_6.jpg?_ex=250x250")
+    let rakutenBookSearchService: RakutenBookSearchService = RakutenBookSearchService()
     
-//    var imageURL = URL(string: "https://img.hanmoto.com/bd/img/9784873115658.jpg")
+    //サンプルデータ
+    let isbnList = [
+        "9784088827315",
+        "9784088827940",
+        "9784088830070",
+        "9784088830636",
+        "9784088831497",
+        "9784088831923",
+        "9784088832593",
+        "9784088833897",
+        "9784088834337",
+        "9784088835396",
+        "9784088835914",
+        "9784088836904",
+        "9784088837901",
+        "9784088838489",
+        "9784088840413",
+        "9784088841335",
+        "9784088842073",
+        "9784088843834",
+        "9784088844107",
+        "9784088845104"
+    ]
     
-    func randomBookImageURL() -> URL? {
-        let isbnList = [
-            "9784873115658", // リーダブルコード
-            "9784088736211", // デスノート
-            "9784815601577", // その他テスト
-            "9784088827315"  // アオのハコ
-        ]
+    private func loadBookImageURLs() async {
         
-        guard let randomISBN = isbnList.randomElement() else {
-            return nil
+        for isbn in isbnList {
+            if let book = await rakutenBookSearchService.searchBook(isbn: isbn){
+                let url = URL(string: book.largeImageUrl)
+                isbnToImageURL[isbn] = url
+            }
+            
+            //楽天apiが1秒につき1件のリクエストのみなので1秒待機する
+            try? await Task.sleep(nanoseconds: 1_000_000_000)
         }
         
-        // 画像提供元のURLにあわせて選択
-        return URL(string: "https://ndlsearch.ndl.go.jp/thumbnail/\(randomISBN).jpg")
     }
+    let items = Array(1...14)
+    
+    // 3列のグリッドレイアウト
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
     
     var body: some View {
-        let items = Array(1...14)
-
-        // 3列のグリッドレイアウト
-        let columns = [
-            GridItem(.flexible()),
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ]
         
         ZStack(alignment: .bottom) {
             ScrollView {
                 LazyVGrid(columns: columns, spacing: 24) {
-                    ForEach(items, id: \.self) { item in
-//                        AsyncImage(url: imageURL){ phase in
-                        if let imageURL = randomBookImageURL(){
-                            AsyncImage(url: imageURL){ phase in
-                                switch phase {
-                                case .empty:
-                                    ZStack {
-                                        Rectangle()
-                                            .fill(Color.gray.opacity(0.2))
-                                        ProgressView()
-                                    }
-                                case .success(let image):
-                                    image
-                                        .resizable()
+                    ForEach(isbnList, id: \.self) { isbn in
+                        AsyncImage(url: isbnToImageURL[isbn]){ phase in
+                            switch phase {
+                            case .empty:
+                                ZStack {
+                                    Rectangle()
+                                        .fill(Color.gray.opacity(0.2))
                                         .frame(height: 160)
-                                        .cornerRadius(10)
-                                        .shadow(radius: 4)
-                                    
-                                case .failure:
-                                    // 失敗時の代替イメージ
-                                    Image(systemName: "xmark.circle")
-                                        .resizable()
-                                        .frame(height: 160)
-                                        .padding(10)
-                                @unknown default:
-                                    //別のケースが追加された時
-                                    EmptyView()
-                                        .frame(height: 160)
+                                    ProgressView()
                                 }
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .frame(height: 160)
+                                    .cornerRadius(10)
+                                    .shadow(radius: 4)
+                                
+                            case .failure:
+                                // 失敗時の代替イメージ
+                                Image(systemName: "xmark.circle")
+                                    .resizable()
+                                    .frame(height: 160)
+                                    .padding(10)
+                            @unknown default:
+                                //別のケースが追加された時
+                                EmptyView()
+                                    .frame(height: 160)
                             }
                         }
                     }
-                    
                 }
-                .padding()
-                .padding(.bottom,64)
+                .padding(4)
             }
+            .scrollIndicators(.hidden)
+            .padding()
+            .padding(.bottom,64)
             
             CustomWideButton(text: "スキャン", fontColor: Color.white, backgroundColor: Color.green, isDisabled: false){
                 print("スキャン開始")
@@ -89,6 +106,11 @@ struct BookListView: View {
             }
             .background(Color(.systemGray6))
             
+        }
+        .onAppear{
+            Task{
+                await loadBookImageURLs()
+            }
         }
     }
 }
