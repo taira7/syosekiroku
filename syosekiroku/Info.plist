@@ -6,6 +6,10 @@
 	<dict>
 		<key>RAKUTEN_APPLICATION_ID</key>
 		<string>$(RAKUTEN_APPLICATION_ID)</string>
+		<key>SUPABASE_ANON_KEY</key>
+		<string>$(SUPABASE_KEY)</string>
+		<key>SUPABASE_URL</key>
+		<string>$(SUPABASE_URL)</string>
 	</dict>
 </dict>
 </plist>
