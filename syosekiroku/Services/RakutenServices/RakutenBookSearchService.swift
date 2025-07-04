@@ -24,7 +24,7 @@ struct Book: Decodable {
 
 final class RakutenBookSearchService {
     
-    let rakutenApplicationId = APIKeysManager.get(apiKeyName: "RAKUTEN_APPLICATION_ID")
+    let rakutenApplicationId = AppConfigManager.get(keyName: "RAKUTEN_APPLICATION_ID")
     
     func searchBook(isbn: String) async -> Book?{
         let baseURL = "https://app.rakuten.co.jp/services/api/BooksBook/Search/20170404?format=json&isbn=\(isbn)&booksGenreId=001&applicationId=\(rakutenApplicationId)"

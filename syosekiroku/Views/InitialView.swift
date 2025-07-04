@@ -2,16 +2,18 @@
 //  ContentView.swift
 //  syosekiroku
 
-
 import SwiftUI
+import Supabase
 
 struct InitialView: View {
-    @State var isAuth = true
+    @EnvironmentObject var authService: AuthService
     var body: some View {
-        if !isAuth {
-            SignView()
-        } else if isAuth {
-            MainStack()
+        Group{
+            if !authService.isAuth {
+                SigninView()
+            } else {
+                MainStack()
+            }
         }
     }
 }

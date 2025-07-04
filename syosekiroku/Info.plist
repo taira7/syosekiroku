@@ -2,10 +2,27 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>APIKeys</key>
+	<key>AppConfig</key>
 	<dict>
+		<key>GIDClientID</key>
+		<string>838841080799-rtmbl9e28kqm6bke9i5fnhqea44tc8dc.apps.googleusercontent.com</string>
 		<key>RAKUTEN_APPLICATION_ID</key>
 		<string>$(RAKUTEN_APPLICATION_ID)</string>
+		<key>SUPABASE_ANON_KEY</key>
+		<string>$(SUPABASE_ANON_KEY)</string>
+		<key>SUPABASE_PROJECT_ID</key>
+		<string>$(SUPABASE_PROJECT_ID)</string>
 	</dict>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.838841080799-rtmbl9e28kqm6bke9i5fnhqea44tc8dc</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
