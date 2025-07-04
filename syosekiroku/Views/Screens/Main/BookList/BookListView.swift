@@ -59,20 +59,20 @@ struct BookListView: View {
         "https://thumbnail.image.rakuten.co.jp/@0_mall/book/cabinet/5104/9784088845104_1_11.jpg?_ex=200x200",
     ]
 
-//    private func loadBookImageURLs() async {
-//
-//        for isbn in isbnList {
-//            if let book = await rakutenBookSearchService.searchBook(isbn: isbn)
-//            {
-//                let url = URL(string: book.largeImageUrl)
-//                isbnToImageURL[isbn] = url
-//            }
-//
-//            //楽天apiが1秒につき1件のリクエストのみなので1秒待機する
-//            try? await Task.sleep(nanoseconds: 1_000_000_000)
-//        }
-//
-//    }
+    //    private func loadBookImageURLs() async {
+    //
+    //        for isbn in isbnList {
+    //            if let book = await rakutenBookSearchService.searchBook(isbn: isbn)
+    //            {
+    //                let url = URL(string: book.largeImageUrl)
+    //                isbnToImageURL[isbn] = url
+    //            }
+    //
+    //            //楽天apiが1秒につき1件のリクエストのみなので1秒待機する
+    //            try? await Task.sleep(nanoseconds: 1_000_000_000)
+    //        }
+    //
+    //    }
 
     // 3列のグリッドレイアウト
     let columns = [
@@ -143,11 +143,25 @@ struct BookListView: View {
             .background(Color(.systemGray6))
 
         }
-//        .onAppear {
-//            Task {
-//                await loadBookImageURLs()
-//            }
-//        }
+        .navigationTitle("Book List")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(
+                    action: {
+                        navigationPath.append(.profile)
+
+                    },
+                    label: {
+                        Image(systemName: "person.circle")
+                            .foregroundColor(.green)
+                    })
+            }
+        }
+        //        .onAppear {
+        //            Task {
+        //                await loadBookImageURLs()
+        //            }
+        //        }
     }
 }
 
