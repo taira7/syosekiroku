@@ -7,7 +7,7 @@ import GoogleSignIn
 import Supabase
 
 @MainActor
-final class AuthService : ObservableObject{
+final class AuthManager : ObservableObject{
     let supabase: SupabaseClient
     @Published var isAuth: Bool = false
     @Published var user: User? = nil

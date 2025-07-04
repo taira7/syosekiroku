@@ -6,10 +6,10 @@ import SwiftUI
 import Supabase
 
 struct InitialView: View {
-    @EnvironmentObject var authService: AuthService
+    @EnvironmentObject var auth: AuthManager
     var body: some View {
         Group{
-            if !authService.isAuth {
+            if !auth.isAuth {
                 SigninView()
             } else {
                 MainStack()

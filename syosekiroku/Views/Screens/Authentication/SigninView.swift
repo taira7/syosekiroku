@@ -2,7 +2,7 @@ import SwiftUI
 import GoogleSignInSwift
 
 struct SigninView: View {
-    @EnvironmentObject var auth: AuthService
+    @EnvironmentObject var auth: AuthManager
     
     var body: some View {
         ZStack {
