@@ -29,7 +29,7 @@ final class AuthService : ObservableObject{
         Task{
             await self.checkSession()
             
-            for await (event, session) in supabase.auth.authStateChanges {
+            for await (event, _) in supabase.auth.authStateChanges {
                 switch event {
                 case .signedIn:
                         isAuth = true
@@ -46,7 +46,7 @@ final class AuthService : ObservableObject{
     
     private func checkSession() async {
         do{
-            let currentSession = try await supabase.auth.session
+            let _ = try await supabase.auth.session
             let currentUser = supabase.auth.currentUser
             
             if currentUser != nil {

@@ -10,7 +10,7 @@ struct InitialView: View {
     var body: some View {
         Group{
             if !authService.isAuth {
-                SignView()
+                SigninView()
             } else {
                 MainStack()
             }
