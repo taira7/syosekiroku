@@ -7,11 +7,11 @@ import GoogleSignIn
 
 @main
 struct syosekirokuApp: App {
-    @StateObject var authService = AuthService()
+    @StateObject var authManager = AuthManager()
     var body: some Scene {
         WindowGroup {
             InitialView()
-                .environmentObject(authService)
+                .environmentObject(authManager)
                 .onOpenURL { url in
                   GIDSignIn.sharedInstance.handle(url)
                 }

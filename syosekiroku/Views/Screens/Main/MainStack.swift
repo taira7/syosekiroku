@@ -5,7 +5,7 @@
 import SwiftUI
 
 struct MainStack: View {
-    @EnvironmentObject var auth: AuthService
+    @EnvironmentObject var auth: AuthManager
     @State private var navigationPath: [ScreenID] = []
 
     var body: some View {

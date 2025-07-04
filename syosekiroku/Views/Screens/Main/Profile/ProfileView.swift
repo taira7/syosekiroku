@@ -2,7 +2,7 @@ import Supabase
 import SwiftUI
 
 struct ProfileView: View {
-    @EnvironmentObject var auth: AuthService
+    @EnvironmentObject var auth: AuthManager
 
     var body: some View {
         VStack(spacing: 20) {
@@ -85,6 +85,6 @@ struct ProfileView: View {
 #Preview {
     NavigationStack {
         ProfileView()
-            .environmentObject(AuthService())
+            .environmentObject(AuthManager())
     }
 }
