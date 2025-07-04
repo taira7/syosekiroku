@@ -3,10 +3,13 @@
 //  syosekiroku
 
 import SwiftUI
+import GoogleSignInSwift
 
 struct SignView: View {
     @State var isSigninPresented: Bool = false
     @State var isSignupPresented: Bool = false
+    private let auth = AuthService()
+    
     
     var body: some View {
         
@@ -35,6 +38,26 @@ struct SignView: View {
                     
                 }
             )
+            
+            //　テスト用のログインボタン
+            GoogleSignInButton(scheme: .light,style: .wide){
+                Task{
+                    await auth.SigninWithGoogle()
+                }
+            }
+            
+            CustomWideButton(
+                text: "サインアウト",
+                fontColor: Color.white,
+                backgroundColor: Color.green,
+                isDisabled: false,
+                action: {
+                    Task{
+                        await auth.signOut()
+                    }
+                }
+            )
+            //　ここまで
             
             Button(action:{
                 isSignupPresented = true
