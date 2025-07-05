@@ -5,7 +5,7 @@
 import Foundation
 import Supabase
 
-struct User: Identifiable, Codable {
+struct AppUser: Identifiable, Codable {
     let id: String
     let name: String
     let email: String
@@ -21,7 +21,7 @@ struct User: Identifiable, Codable {
     }
 }
 
-extension User {
+extension AppUser {
     init(from authUser: Auth.User) {
         self.id = authUser.id.uuidString
         self.email = authUser.email ?? ""

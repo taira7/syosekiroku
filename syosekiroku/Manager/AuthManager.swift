@@ -8,9 +8,9 @@ import Supabase
 
 @MainActor
 final class AuthManager: ObservableObject {
-    let supabase: SupabaseClient
+    @Published var supabase: SupabaseClient
     @Published var isAuth: Bool = false
-    @Published var user: User? = nil
+    @Published var user: AppUser? = nil
 
     init() {
         guard
@@ -37,7 +37,7 @@ final class AuthManager: ObservableObject {
                 case .signedIn:
                     isAuth = true
                     if let authUser = supabase.auth.currentUser {
-                        let appUser = User(from: authUser)
+                        let appUser = AppUser(from: authUser)
                         user = appUser
                     }
                 case .signedOut:
@@ -58,7 +58,7 @@ final class AuthManager: ObservableObject {
             if currentUser != nil {
                 isAuth = true
                 if let authUser = supabase.auth.currentUser {
-                    let appUser = User(from: authUser)
+                    let appUser = AppUser(from: authUser)
                     user = appUser
                 }
                 print("既存のセッションがあります: \(currentUser?.email ?? "no email")")
