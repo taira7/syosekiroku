@@ -5,6 +5,7 @@
 import Foundation
 import Supabase
 
+//今後のユーザー情報の拡張(好きなジャンルやSNS要素の追加など)のために作成しておく
 struct AppUser: Identifiable, Codable {
     let id: String
     let name: String
@@ -27,6 +28,6 @@ extension AppUser {
         self.email = authUser.email ?? ""
         self.name = authUser.userMetadata["name"]?.stringValue ?? "名前なし"
         self.iconURL = authUser.userMetadata["avatar_url"]?.stringValue ?? "メールアドレス未設定"
-        self.createdAt = Date()
+        self.createdAt = authUser.createdAt
     }
 }
