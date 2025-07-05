@@ -25,8 +25,8 @@ extension User {
     init(from authUser: Auth.User) {
         self.id = authUser.id.uuidString
         self.email = authUser.email ?? ""
-        self.name = authUser.userMetadata["name"]?.stringValue ?? ""
-        self.iconURL = authUser.userMetadata["avatar_url"]?.stringValue ?? ""
+        self.name = authUser.userMetadata["name"]?.stringValue ?? "名前なし"
+        self.iconURL = authUser.userMetadata["avatar_url"]?.stringValue ?? "メールアドレス未設定"
         self.createdAt = Date()
     }
 }

@@ -7,10 +7,7 @@ struct ProfileView: View {
     var body: some View {
         VStack(spacing: 20) {
             if let user = auth.user {
-                if let avatarValue = user.userMetadata["avatar_url"],
-                    let avatarURLString = avatarValue.stringValue,
-                    let url = URL(string: avatarURLString)
-                {
+                if let url = URL(string: user.iconURL) {
                     AsyncImage(url: url) { phase in
                         switch phase {
                         case .success(let image):
@@ -45,11 +42,11 @@ struct ProfileView: View {
                     .shadow(radius: 5)
                 }
 
-                Text(user.userMetadata["full_name"]?.stringValue ?? "名前なし")
+                Text(user.name)
                     .font(.title)
                     .fontWeight(.bold)
 
-                Text(user.userMetadata["email"]?.stringValue ?? "メールアドレス未設定")
+                Text(user.email)
                     .foregroundColor(.secondary)
             } else {
                 Image(systemName: "person.crop.circle.fill")
