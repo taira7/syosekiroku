@@ -4,6 +4,7 @@
 
 import Foundation
 
+// apiから取得する構造
 struct BookResponse: Decodable {
     let Items: [BookWrapper]
 }
@@ -22,8 +23,9 @@ struct Book: Decodable {
     let title: String
 }
 
+// データベースで扱う構造体
 struct BookEntity: Identifiable, Codable {
-    let id: Int64
+    let id: Int64?
     let userId: String
     let isbn: String
     let title: String
@@ -44,7 +46,7 @@ struct BookEntity: Identifiable, Codable {
 
 extension BookEntity {
     init(from apiBook: Book, userId: String) {
-        self.id = 0 // Supabaseでauto increment
+        self.id = nil  // Supabaseでauto increment
         self.userId = userId
         self.isbn = apiBook.isbn
         self.title = apiBook.title
