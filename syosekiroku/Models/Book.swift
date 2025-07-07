@@ -31,7 +31,7 @@ struct BookEntity: Identifiable, Codable {
     let title: String
     let coverURL: String
     let isFavorite: Bool
-    let createdAt: Date
+    let createdAt: Date?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -52,6 +52,6 @@ extension BookEntity {
         self.title = apiBook.title
         self.coverURL = apiBook.largeImageUrl
         self.isFavorite = false
-        self.createdAt = Date()
+        self.createdAt = nil
     }
 }
