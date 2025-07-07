@@ -35,6 +35,8 @@ final class BookDatabaseService {
                 try await supabase
                 .from("books")
                 .upsert(book, onConflict: "isbn", ignoreDuplicates: true)
+                .select()
+                .single()
                 .execute()
                 .value
             return inserted
