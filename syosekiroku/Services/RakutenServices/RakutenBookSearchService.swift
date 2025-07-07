@@ -4,24 +4,6 @@
 
 import Foundation
 
-struct BookResponse: Decodable {
-    let Items: [BookWrapper]
-}
-
-struct BookWrapper: Decodable {
-    let Item: Book
-}
-
-struct Book: Decodable {
-    let author: String
-    let isbn: String
-    let itemCaption: String
-    let largeImageUrl: String
-    let publisherName: String
-    let salesDate: String
-    let title: String
-}
-
 final class RakutenBookSearchService {
     
     let rakutenApplicationId = AppConfigManager.get(keyName: "RAKUTEN_APPLICATION_ID")
