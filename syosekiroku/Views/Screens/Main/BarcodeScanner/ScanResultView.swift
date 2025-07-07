@@ -5,14 +5,21 @@
 import SwiftUI
 
 struct ScanResultView: View {
+    @EnvironmentObject var auth: AuthManager
     @Binding var scannedCode: String
     @Binding var isScannerPresented: Bool
 
     @State private var imageURL: URL? = nil
     @State private var bookDetail: Book? = nil
 
+    @State private var isLoading = false
+
     let rakutenBookSearchService: RakutenBookSearchService =
         RakutenBookSearchService()
+
+    var bookDB: BookDatabaseService {
+        BookDatabaseService(supabase: auth.supabase)
+    }
 
     func fetchBookDetail(scannedCode: String) async {
 
@@ -31,7 +38,10 @@ struct ScanResultView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                if scannedCode != "" {
+                if isLoading {
+                    ProgressView("読み込み中...")
+                        .padding(.bottom, 30)
+                } else if scannedCode != "" {
                     if let imageURL = imageURL {
                         AsyncImage(url: imageURL) { phase in
                             switch phase {
@@ -84,16 +94,24 @@ struct ScanResultView: View {
                             .padding(2)
 
                         }
+
+                        CustomWideButton(
+                            text: "追加する", fontColor: Color.white,
+                            backgroundColor: Color.green, isDisabled: false
+                        ) {
+                            print("追加する")
+                            if let userId = auth.user?.id, let book = bookDetail
+                            {
+                                let bookEntity = BookEntity(
+                                    from: book, userId: userId)
+                                Task {
+                                    await bookDB.addBook(book: bookEntity)
+                                }
+                            }
+                        }
                     } else {
                         Text("書籍データが見つかりません")
                             .padding(.bottom, 30)
-                    }
-
-                    CustomWideButton(
-                        text: "追加する", fontColor: Color.white,
-                        backgroundColor: Color.green, isDisabled: false
-                    ) {
-                        print("追加する")
                     }
 
                     CustomWideButton(
@@ -101,6 +119,9 @@ struct ScanResultView: View {
                         backgroundColor: Color.gray, isDisabled: false
                     ) {
                         print("キャンセル")
+                        scannedCode = ""
+                        bookDetail = nil
+                        imageURL = nil
                         isScannerPresented = false
                     }
 
@@ -113,7 +134,9 @@ struct ScanResultView: View {
         .scrollIndicators(.hidden)
         .onAppear {
             Task {
+                isLoading = true
                 await fetchBookDetail(scannedCode: scannedCode)
+                isLoading = false
             }
         }
         .padding()
