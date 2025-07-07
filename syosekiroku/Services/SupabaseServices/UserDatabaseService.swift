@@ -30,18 +30,23 @@ final class UserDatabaseService {
         }
     }
 
-    //重複する場合は無視する
+    // 既存の場合は無視する 配列で 空 or 1件のみ 返却される
     func addUser(user: AppUser) async {
         do {
-            let insertedUser: AppUser =
+            let insertedUsers: [AppUser] =
                 try await supabase
                 .from("users")
                 .upsert(user, onConflict: "id", ignoreDuplicates: true)
                 .select()
-                .single()
                 .execute()
                 .value
-            print("Inserted User:", insertedUser)
+
+            if let first = insertedUsers.first {
+                print("Inserted User:", first)
+            } else {
+                print("既に存在していたため追加しない")
+            }
+
         } catch {
             print("Failed to insert user: \(error)")
         }
