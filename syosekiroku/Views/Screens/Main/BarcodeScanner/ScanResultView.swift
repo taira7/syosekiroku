@@ -57,10 +57,14 @@ struct ScanResultView: View {
                                     .resizable()
                                     .frame(width: 200, height: 260)
                             case .failure:
-                                Image(systemName: "xmark.circle")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .padding(10)
+                                ZStack {
+                                    Rectangle()
+                                        .fill(Color.gray.opacity(0.2))
+                                    Text("Error")
+                                        .foregroundColor(.secondary)
+                                }
+                                .frame(width: 220, height: 300)
+                                .padding(.vertical, 4)
                             @unknown default:
                                 EmptyView()
                             }
