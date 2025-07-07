@@ -3,6 +3,11 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var auth: AuthManager
+    @State private var isShowingDeleteAlert = false
+
+    var userDB: UserDatabaseService {
+        UserDatabaseService(supabase: auth.supabase)
+    }
 
     var body: some View {
         VStack(spacing: 20) {
@@ -71,6 +76,31 @@ struct ProfileView: View {
                 Task {
                     await auth.signOut()
                 }
+            }
+
+            CustomWideButton(
+                text: "アカウントを削除", fontColor: .white,
+                backgroundColor: .gray, isDisabled: false
+            ) {
+                isShowingDeleteAlert = true
+            }
+            .alert(
+                "アカウントを削除しますか？",
+                isPresented: $isShowingDeleteAlert
+            ) {
+                Button("削除する", role: .destructive) {
+                    if let userId = auth.user?.id {
+                        Task {
+                            // auth.userからの削除は行わない(管理者権限でしか行えないため)
+                            await userDB.deleteUser(userId: userId)
+                            await auth.signOut()
+                            auth.isAuth = false
+                        }
+                    }
+                }
+                Button("キャンセル", role: .cancel) {}
+            } message: {
+                Text("この操作は取り消せません。")
             }
         }
         .padding()
