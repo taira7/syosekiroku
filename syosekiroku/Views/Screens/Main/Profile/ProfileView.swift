@@ -4,6 +4,10 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var auth: AuthManager
 
+    var userDB: UserDatabaseService {
+        UserDatabaseService(supabase: auth.supabase)
+    }
+
     var body: some View {
         VStack(spacing: 20) {
             if let user = auth.user {
@@ -70,6 +74,20 @@ struct ProfileView: View {
             ) {
                 Task {
                     await auth.signOut()
+                }
+            }
+
+            CustomWideButton(
+                text: "アカウントを削除", fontColor: .white,
+                backgroundColor: .gray, isDisabled: false
+            ) {
+                if let userId = auth.user?.id {
+                    Task {
+                        // auth.userからの削除は行わない(管理者権限でしか行えないため)
+                        await userDB.deleteUser(userId: userId)
+                        await auth.signOut()
+                        auth.isAuth = false
+                    }
                 }
             }
         }
