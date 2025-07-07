@@ -8,9 +8,10 @@ struct BookListView: View {
     @EnvironmentObject var auth: AuthManager
     @Binding var navigationPath: [ScreenID]
 
-    @State private var isbnToImageURL: [String: URL] = [:]
     @State private var books: [BookEntity] = []
+    @State var selectedBook: BookEntity? = nil
     @State private var isLoading = false
+    @State var isBookDetailPresented: Bool = false
 
     let rakutenBookSearchService: RakutenBookSearchService =
         RakutenBookSearchService()
@@ -38,6 +39,8 @@ struct BookListView: View {
                         ForEach(books) { book in
                             Button {
                                 print("book", book)
+                                selectedBook = book
+                                isBookDetailPresented = true
                             } label: {
                                 if let url = URL(string: book.coverURL) {
                                     AsyncImage(url: url) { phase in
@@ -99,6 +102,22 @@ struct BookListView: View {
             .background(Color(.systemGray6))
 
         }
+        .sheet(isPresented: $isBookDetailPresented) {
+            BookDetailView(
+                book: $selectedBook,
+                isBookDetailPresented: $isBookDetailPresented,
+                onDelete: {
+                    if let userId = auth.user?.id {
+                        Task {
+                            isLoading = true
+                            books = await bookDB.fetchAllBooks(userId: userId)
+                            isLoading = false
+                        }
+                    }
+
+                }
+            )
+        }
         .navigationTitle("Book List")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -128,4 +147,5 @@ struct BookListView: View {
 #Preview {
     @Previewable @State var navigationPath: [ScreenID] = []
     BookListView(navigationPath: $navigationPath)
+        .environmentObject(AuthManager())
 }
