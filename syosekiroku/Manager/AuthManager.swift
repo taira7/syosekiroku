@@ -11,7 +11,6 @@ final class AuthManager: ObservableObject {
     @Published var supabase: SupabaseClient
     @Published var isAuth: Bool = false
     @Published var user: AppUser? = nil
-
     init() {
         guard
             let supabaseProjectId = AppConfigManager.get(
@@ -67,7 +66,7 @@ final class AuthManager: ObservableObject {
                 user = nil
             }
         } catch {
-            print("")
+            print("checkSession error: \(error)")
         }
     }
 
@@ -108,8 +107,12 @@ final class AuthManager: ObservableObject {
                 )
             )
 
-            if let user = supabase.auth.currentUser {
-                print("user", user)
+            // authStateChangesではuserの更新が間に合わなかったので、ここではcurrentUserを使用
+            if let authUser = supabase.auth.currentUser {
+                let appUser = AppUser(from: authUser)
+                user = appUser
+                let userDB = UserDatabaseService(supabase: supabase)
+                await userDB.addUser(user: appUser)
             } else {
                 print("Supabase currentUserがnil です")
             }
@@ -123,6 +126,8 @@ final class AuthManager: ObservableObject {
     func signOut() async {
         do {
             try await supabase.auth.signOut()
+            user = nil
+            isAuth = false
             print("サインアウトしました")
 
         } catch {
