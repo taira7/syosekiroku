@@ -118,6 +118,12 @@ struct BookDetailView: View {
                 isBookDetailPresented = false
 
             }
+            
+            //楽天ウェブサービスのクレジット
+            Link("Supported by Rakuten Developers", destination: URL(string: "https://developers.rakuten.com/")!)
+                .font(.caption)
+                .foregroundColor(.gray)
+                .padding(.top, 8)
         }
         .scrollIndicators(.hidden)
         .padding()

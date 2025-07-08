@@ -50,6 +50,12 @@ struct SigninView: View {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                 )
+                
+                //楽天ウェブサービスのクレジット
+                Link("Supported by Rakuten Developers", destination: URL(string: "https://developers.rakuten.com/")!)
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .padding(.top, 8)
             }
             .frame(maxWidth: 400,maxHeight: 360)
             .padding()

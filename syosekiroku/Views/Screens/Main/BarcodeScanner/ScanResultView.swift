@@ -131,6 +131,12 @@ struct ScanResultView: View {
                         imageURL = nil
                         isScannerPresented = false
                     }
+                    
+                    //楽天ウェブサービスのクレジット
+                    Link("Supported by Rakuten Developers", destination: URL(string: "https://developers.rakuten.com/")!)
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                        .padding(.top, 8)
 
                 } else {
                     //念の為の処理
