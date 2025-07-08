@@ -14,7 +14,7 @@ struct MainStack: View {
                 .navigationDestination(for: ScreenID.self) { screen in
                     switch screen {
                     case .barcordScanner:
-                        BarcodeScannerView()
+                        BarcodeScannerView(navigationPath: $navigationPath)
                     case .profile:
                         ProfileView()
                     }
