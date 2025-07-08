@@ -8,6 +8,7 @@ struct ScanResultView: View {
     @EnvironmentObject var auth: AuthManager
     @Binding var scannedCode: String
     @Binding var isScannerPresented: Bool
+    var onClose: () -> Void
 
     @State private var imageURL: URL? = nil
     @State private var bookDetail: Book? = nil
@@ -109,7 +110,9 @@ struct ScanResultView: View {
                                 let bookEntity = BookEntity(
                                     from: book, userId: userId)
                                 Task {
-                                    await bookDB.addBook(book: bookEntity)
+                                    _ = await bookDB.addBook(book: bookEntity)
+                                    isScannerPresented = false
+                                    onClose()
                                 }
                             }
                         }
@@ -149,7 +152,12 @@ struct ScanResultView: View {
 
 #Preview {
     @Previewable @State var scannedCode: String = "9784873115658"
-    @Previewable @State var isScannerPresented: Bool = false
+    @Previewable @State var isScannerPresented: Bool = true
+    @Previewable @State var navigationPath: [ScreenID] = [.barcordScanner]
     ScanResultView(
-        scannedCode: $scannedCode, isScannerPresented: $isScannerPresented)
+        scannedCode: $scannedCode,
+        isScannerPresented: $isScannerPresented,
+        onClose: { navigationPath = [] }
+    )
+    .environmentObject(AuthManager())
 }
