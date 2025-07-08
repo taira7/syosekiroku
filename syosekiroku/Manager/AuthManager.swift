@@ -27,47 +27,6 @@ final class AuthManager: ObservableObject {
             supabaseURL: supabaseURL,
             supabaseKey: supabaseAnonKey
         )
-
-        Task {
-            await self.checkSession()
-
-            for await (event, _) in supabase.auth.authStateChanges {
-                switch event {
-                case .signedIn:
-                    isAuth = true
-                    if let authUser = supabase.auth.currentUser {
-                        let appUser = AppUser(from: authUser)
-                        user = appUser
-                    }
-                case .signedOut:
-                    isAuth = false
-                    user = nil
-                default:
-                    break
-                }
-            }
-        }
-    }
-
-    private func checkSession() async {
-        do {
-            let _ = try await supabase.auth.session
-            let currentUser = supabase.auth.currentUser
-
-            if currentUser != nil {
-                isAuth = true
-                if let authUser = supabase.auth.currentUser {
-                    let appUser = AppUser(from: authUser)
-                    user = appUser
-                }
-                print("既存のセッションがあります: \(currentUser?.email ?? "no email")")
-            } else {
-                isAuth = false
-                user = nil
-            }
-        } catch {
-            print("checkSession error: \(error)")
-        }
     }
 
     func SigninWithGoogle() async {
@@ -107,7 +66,6 @@ final class AuthManager: ObservableObject {
                 )
             )
 
-            // authStateChangesではuserの更新が間に合わなかったので、ここではcurrentUserを使用
             if let authUser = supabase.auth.currentUser {
                 let appUser = AppUser(from: authUser)
                 user = appUser
