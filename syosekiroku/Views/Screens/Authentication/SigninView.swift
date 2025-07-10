@@ -1,16 +1,16 @@
-import SwiftUI
 import GoogleSignInSwift
+import SwiftUI
 
 struct SigninView: View {
     @EnvironmentObject var auth: AuthManager
-    
+
     var body: some View {
         ZStack {
 
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(red: 0.5, green: 0.95, blue: 0.5),
-                    Color(red: 0.0, green: 0.7, blue: 0.2)
+                    Color(red: 0.0, green: 0.7, blue: 0.2),
                 ]),
                 startPoint: .top,
                 endPoint: .bottom
@@ -34,14 +34,14 @@ struct SigninView: View {
                 Divider()
                     .background(Color.green)
                     .padding(.horizontal, 40)
-                    .padding(.vertical,8)
+                    .padding(.vertical, 8)
 
                 GoogleSignInButton(
                     scheme: .light,
                     style: .wide,
                     state: .normal
                 ) {
-                    Task{
+                    Task {
                         await auth.SigninWithGoogle()
                     }
                 }
@@ -50,8 +50,17 @@ struct SigninView: View {
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.gray.opacity(0.3), lineWidth: 1)
                 )
+
+                //楽天ウェブサービスのクレジット
+                Link(
+                    "Supported by Rakuten Developers",
+                    destination: URL(string: "https://developers.rakuten.com/")!
+                )
+                .font(.caption)
+                .foregroundColor(.gray)
+                .padding(.top, 8)
             }
-            .frame(maxWidth: 400,maxHeight: 360)
+            .frame(maxWidth: 400, maxHeight: 360)
             .padding()
             .background(Color.white)
             .cornerRadius(24)

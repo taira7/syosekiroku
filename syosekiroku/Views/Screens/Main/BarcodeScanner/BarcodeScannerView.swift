@@ -11,9 +11,8 @@ struct BarcodeScannerView: View {
     @State private var isScannerPresented = false
 
     var body: some View {
-        ZStack{
+        ZStack {
             BarcodeScannerRepresentable { scanValue in
-                print("🟦scanValue:\(scanValue)")
                 scannedCode = scanValue
                 isScannerPresented = true
             }
@@ -28,7 +27,7 @@ struct BarcodeScannerView: View {
                     scannedCode = ""
                 }
             }
-            
+
             // 枠線のガイド
             Rectangle()
                 .stroke(Color.white, lineWidth: 4)
@@ -40,8 +39,3 @@ struct BarcodeScannerView: View {
     }
 
 }
-
-//#Preview {
-//    @Previewable @State var navigationPath: [ScreenID] = [.barcordScanner]
-//    BarcodeScannerView(navigationPath: $navigationPath)
-//}

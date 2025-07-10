@@ -31,15 +31,14 @@ final class BookDatabaseService {
 
     func addBook(book: BookEntity) async -> BookEntity? {
         do {
-            let inserted: BookEntity =
+            let inserted: [BookEntity] =
                 try await supabase
                 .from("books")
                 .upsert(book, onConflict: "isbn", ignoreDuplicates: true)
                 .select()
-                .single()
                 .execute()
                 .value
-            return inserted
+            return inserted.first
         } catch {
             print("error:\(error.localizedDescription)")
             return nil

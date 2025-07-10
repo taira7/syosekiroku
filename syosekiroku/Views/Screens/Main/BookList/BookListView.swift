@@ -38,7 +38,6 @@ struct BookListView: View {
                     LazyVGrid(columns: columns, spacing: 24) {
                         ForEach(books) { book in
                             Button {
-                                print("book", book)
                                 selectedBook = book
                                 isBookDetailPresented = true
                             } label: {
@@ -96,7 +95,6 @@ struct BookListView: View {
                 text: "スキャン", fontColor: Color.white,
                 backgroundColor: Color.green, isDisabled: false
             ) {
-                print("スキャン開始")
                 navigationPath.append(.barcordScanner)
             }
             .background(Color(.systemGray6))

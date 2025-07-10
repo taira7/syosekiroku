@@ -33,19 +33,13 @@ final class UserDatabaseService {
     // 既存の場合は無視する 配列で 空 or 1件のみ 返却される
     func addUser(user: AppUser) async {
         do {
-            let insertedUsers: [AppUser] =
+            let _: [AppUser] =
                 try await supabase
                 .from("users")
                 .upsert(user, onConflict: "id", ignoreDuplicates: true)
                 .select()
                 .execute()
                 .value
-
-            if let first = insertedUsers.first {
-                print("Inserted User:", first)
-            } else {
-                print("既に存在していたため追加しない")
-            }
 
         } catch {
             print("Failed to insert user: \(error)")
@@ -54,13 +48,12 @@ final class UserDatabaseService {
 
     func deleteUser(userId: String) async {
         do {
-            let response =
+            let _ =
                 try await supabase
                 .from("users")
                 .delete()
                 .eq("id", value: userId)
                 .execute()
-            print("Deleted user with id: \(userId), status: \(response.status)")
         } catch {
             print("Failed to delete user: \(error)")
         }

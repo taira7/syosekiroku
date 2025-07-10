@@ -114,10 +114,17 @@ struct BookDetailView: View {
                 text: "閉じる", fontColor: Color.white,
                 backgroundColor: Color.gray, isDisabled: false
             ) {
-                print("閉じる")
                 isBookDetailPresented = false
-
             }
+
+            //楽天ウェブサービスのクレジット
+            Link(
+                "Supported by Rakuten Developers",
+                destination: URL(string: "https://developers.rakuten.com/")!
+            )
+            .font(.caption)
+            .foregroundColor(.gray)
+            .padding(.top, 8)
         }
         .scrollIndicators(.hidden)
         .padding()
