@@ -86,8 +86,6 @@ final class AuthManager: ObservableObject {
             try await supabase.auth.signOut()
             user = nil
             isAuth = false
-            print("サインアウトしました")
-
         } catch {
             print("サインアウトできませんでした")
         }

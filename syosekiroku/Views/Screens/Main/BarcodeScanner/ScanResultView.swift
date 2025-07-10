@@ -104,7 +104,6 @@ struct ScanResultView: View {
                             text: "追加する", fontColor: Color.white,
                             backgroundColor: Color.green, isDisabled: false
                         ) {
-                            print("追加する")
                             if let userId = auth.user?.id, let book = bookDetail
                             {
                                 let bookEntity = BookEntity(
@@ -125,18 +124,21 @@ struct ScanResultView: View {
                         text: "キャンセル", fontColor: Color.white,
                         backgroundColor: Color.gray, isDisabled: false
                     ) {
-                        print("キャンセル")
                         scannedCode = ""
                         bookDetail = nil
                         imageURL = nil
                         isScannerPresented = false
                     }
-                    
+
                     //楽天ウェブサービスのクレジット
-                    Link("Supported by Rakuten Developers", destination: URL(string: "https://developers.rakuten.com/")!)
-                        .font(.caption)
-                        .foregroundColor(.gray)
-                        .padding(.top, 8)
+                    Link(
+                        "Supported by Rakuten Developers",
+                        destination: URL(
+                            string: "https://developers.rakuten.com/")!
+                    )
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .padding(.top, 8)
 
                 } else {
                     //念の為の処理

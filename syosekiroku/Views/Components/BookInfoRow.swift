@@ -7,14 +7,14 @@ import SwiftUI
 struct BookInfoRow: View {
     let title: String
     let value: String
-    
+
     var body: some View {
-        VStack{
+        VStack {
             Text(title)
                 .frame(maxWidth: .infinity, alignment: .leading)
             Text(value)
-                .padding(.horizontal,2)
-            
+                .padding(.horizontal, 2)
+
         }
         .frame(maxWidth: .infinity)
         .padding(8)
