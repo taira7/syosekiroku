@@ -34,7 +34,7 @@ final class BookDatabaseService {
             let inserted: [BookEntity] =
                 try await supabase
                 .from("books")
-                .upsert(book, onConflict: "isbn", ignoreDuplicates: true)
+                .upsert(book, onConflict: "user_id,isbn", ignoreDuplicates: true)
                 .select()
                 .execute()
                 .value
